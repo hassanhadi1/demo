@@ -8,11 +8,16 @@ import java.sql.Statement;
 public class Connexion {
     public static void bdConnexion(){
         System.out.println("Connexion à la base de données");
-        String url = "JDBC:sqlite::ressources:bdd.db";
-        try(Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement();){
-            System.out.println("Connexion réussie");
-            // connexion à notre base de donnée locale
-        }catch(SQLException e){
+        String url = "jdbc:sqlite::memory:";
+        try {
+            Class.forName("org.sqlite.JDBC");
+            try(Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement();){
+                System.out.println("Connexion réussie");
+                // connexion à notre base de donnée locale
+            }catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }catch(ClassNotFoundException e){
             System.out.println(e.getMessage());
         }
     }
